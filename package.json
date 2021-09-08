@@ -1,0 +1,20 @@
+{
+  "name": "bouncing-balls",
+  "version": "1.0.0",
+  "description": "This is the practice from MDN oojs",
+  "main": "src/index.js",
+  "repository": "git@github.com:chingQAQ/bouncing-balls.git",
+  "author": "aion.chiu",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.4",
+    "babel-jest": "^27.1.1",
+    "jest": "^27.1.1",
+    "rollup": "^2.56.3"
+  },
+  "scripts": {
+    "test:watch": "jest ./test/index.test.js --watchAll",
+    "build:js": "rollup --watch --config rollup.config.js"
+  }
+}
