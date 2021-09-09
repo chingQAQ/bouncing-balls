@@ -7,7 +7,15 @@ describe('Is random function be alright', () => {
     { min: 5, max: 90 },
     { min: 44, max: 64 },
     { min: 50, max: 1024 }
-  ]
+  ];
+
+  const exceptionNum = [
+    { min: 5, max: 1 },
+    { min: 60, max: 40 },
+    { min: 'min', max: 64 },
+    { min: 50, max: null },
+    { min: '123', max: 555 }
+  ];
 
   for (let i = 0; i < num.length; i++) {
     const { min, max } = num[i];
@@ -21,7 +29,15 @@ describe('Is random function be alright', () => {
       expect(rat).toBeGreaterThanOrEqual(min);
       expect(rat).toBeLessThanOrEqual(max);
     });
-    
+  }
+
+  for (let i = 0; i < exceptionNum.length; i++) {
+    const { min, max } = exceptionNum[i];
+    const rat = random(min, max);
+
+    test('Is random props not expect params', () => {
+      expect(rat).toEqual(0);
+    });
   }
 });
 

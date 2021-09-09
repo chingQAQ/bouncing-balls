@@ -24,7 +24,7 @@ export class Ball {
     };
   }
 
-  set position ({x, y}) {
+  set position({x, y}) {
     this._x = x;
     this._y = y;
   }
@@ -32,6 +32,17 @@ export class Ball {
   set velocity({ x, y }) {
     this._velX = x,
     this._velY = y
+  }
+
+  draw() {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = this.color;
+    this.ctx.arc(this.position.x, this.position.y, this.size, 0, 2 * Math.PI);
+    this.ctx.fill();
+  }
+
+  update() {
+  
   }
 }
 
