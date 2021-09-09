@@ -51,6 +51,8 @@ export class Ball {
       const distance = Math.sqrt((dx * dx) + (dy * dy));
 
       if (this !== items[i] && distance < this.size + items[i].size) {
+        this.velX += 0.1 * (this.velX < 0 ? -1 : 1);
+        this.velY += 0.1 * (this.velY < 0 ? -1 : 1);
         items[i].color = this.color = `rgb(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)})`;
       }
     }
