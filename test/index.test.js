@@ -4,7 +4,7 @@ import { Ball } from '../src/module/ball';
 describe('Is random function be alright', () => {
   const num = [
     { min: 10, max: 20 },
-    { min: 5, max: 90 },
+    { min: -7, max: 7 },
     { min: 44, max: 64 },
     { min: 50, max: 1024 }
   ];
@@ -55,8 +55,8 @@ describe('Is ball object be alright', () => {
   test('Is ball property all match with option', () => {
     expect(ball.position.x).toEqual(option.x);
     expect(ball.position.y).toEqual(option.y);
-    expect(ball.velocity.x).toEqual(option.velX);
-    expect(ball.velocity.y).toEqual(option.velY);
+    expect(ball.velX).toEqual(option.velX);
+    expect(ball.velY).toEqual(option.velY);
     expect(ball.size).toEqual(option.size);
     expect(ball.color).toEqual(option.color);
   });
@@ -71,17 +71,5 @@ describe('Is ball object be alright', () => {
 
     expect(ball.position.x).toEqual(position.x);
     expect(ball.position.y).toEqual(position.y);
-  });
-
-  test('Is ball velocity setter ok', () => {
-    const velocity = {
-      x: random(1, 1),
-      y: random(5, 5),
-    }
-
-    ball.velocity = velocity;
-
-    expect(ball.velocity.x).toEqual(velocity.x);
-    expect(ball.velocity.y).toEqual(velocity.y);
   });
 })
