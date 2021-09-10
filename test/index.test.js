@@ -1,7 +1,14 @@
 ﻿import { random } from '../src/helpers/index';
-import { Ball } from '../src/module/ball';
+import Circle from '../src/module/circle';
+import Ball from '../src/module/ball';
 
-describe('Is random function be alright', () => {
+describe('Circle prototype confirm', () => {
+  test('Is ball instance from circle', () => {
+    expect(true).toEqual(Ball.__proto__ === Circle);
+  });
+})
+
+describe('Random function be alright', () => {
   const num = [
     { min: 10, max: 20 },
     { min: -7, max: 7 },
