@@ -1,20 +1,7 @@
-function random (min, max) {
-  const isNaN = (...arg) => arg.every(i => Number.isNaN(i));
-  const isInt = (...arg) => arg.every(i => Number.isInteger(i));
-
-  return (min > max || !isInt(min, max) || isNaN(min, max))
-    ? 0
-    : Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// ball
-class Ball {
-  constructor() {
-    const context = arguments[0];
+class Circle {
+  constructor(context) {
     this._x = context.x;
     this._y = context.y;
-    this.velX = context.velX;
-    this.velY = context.velY;
     this.size = context.size;
     this.color = context.color;
   }
@@ -26,7 +13,7 @@ class Ball {
     };
   }
 
-  set position({x, y}) {
+  set position({ x, y }) {
     this._x = x;
     this._y = y;
   }
@@ -36,6 +23,39 @@ class Ball {
     this.ctx.fillStyle = this.color;
     this.ctx.arc(this.position.x, this.position.y, this.size, 0, 2 * Math.PI);
     this.ctx.fill();
+  }
+
+  collisionDetect(items) {
+    const balls = items;
+    const length = balls.length;
+
+    for (let i = 0; i < length; i++) {
+      const dx = this.position.x - balls[i].position.x;
+      const dy = this.position.y - balls[i].position.y;
+      const distance = Math.sqrt((dx * dx) + (dy * dy));
+
+      if (distance < this.size + balls[i].size) {
+        balls[i].velX *= -1;
+        balls[i].velY *= -1;
+      }
+    }
+  }
+}
+
+function random (min, max) {
+  const isNaN = (...arg) => arg.every(i => Number.isNaN(i));
+  const isInt = (...arg) => arg.every(i => Number.isInteger(i));
+
+  return (min > max || !isInt(min, max) || isNaN(min, max))
+    ? 0
+    : Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+class Ball extends Circle {
+  constructor(context) {
+    super(context);
+    this.velX = context.velX;
+    this.velY = context.velY;
   }
 
   update() {
@@ -76,26 +96,44 @@ let height = canvas.height = window.innerHeight;
 const ballCount = random(10, 20);
 const balls = [];
 
+const obstacleCount = random(1, 4);
+const obstacles = [];
+
+const circleSize = random(12, 30);
+
 window.addEventListener('resize', () => {
   width = canvas.width = window.innerWidth;
   height = canvas.height = window.innerHeight;
 });
 
 function init () {
+  const size = circleSize;
+
   do {
-    const size = random(12, 30);
     const ball = new Ball({
       x: random(0 + size, width - size),
       y: random(0 + size, height - size),
       velX: random(-7, 7),
       velY: random(-7, 7),
       size,
-      color: 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')',
+      color: 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')'
     });
 
     ball.ctx = ctx;
     balls.push(ball);
-  } while (balls.length < ballCount)
+  } while (balls.length < ballCount);
+
+  do {
+    const obstacle = new Circle({
+      x: random(0 + size, width - size),
+      y: random(0 + size, height - size),
+      size,
+      color: 'rgb(255, 255, 255)'
+    });
+
+    obstacle.ctx = ctx;
+    obstacles.push(obstacle);
+  } while (obstacles.length < obstacleCount);
 }
 
 function loop() {
@@ -108,6 +146,11 @@ function loop() {
     balls[i].draw();
     balls[i].update();
     balls[i].collisionDetect(balls);
+  }
+
+  for (let i = 0; i < obstacles.length; i++) {
+    obstacles[i].draw();
+    obstacles[i].collisionDetect(balls);
   }
 
   requestAnimationFrame(loop);

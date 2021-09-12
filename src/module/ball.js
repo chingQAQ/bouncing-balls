@@ -1,5 +1,6 @@
 ﻿import Circle from './circle';
 import { random } from '../helpers/index';
+
 export default class Ball extends Circle {
   constructor(context) {
     super(context);
